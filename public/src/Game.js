@@ -1,7 +1,3 @@
-DsH = {
-
-};
-
 DsH.Game=function(game){
   this.scoreText;
   this.score=0;
@@ -16,7 +12,7 @@ DsH.Game.prototype={
     this.load.image('sky', 'assets/sky.png');
     this.load.image('ground', 'assets/platform.png');
     this.load.image('star', 'assets/star.png');
-    this.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+    this.load.spritesheet('dog', 'assets/dog.png', 48, 32);
   },
   create:function(){
     this.physics.startSystem(Phaser.Physics.ARCADE);
@@ -34,16 +30,18 @@ DsH.Game.prototype={
     ledge = platforms.create(-150, 250, 'ground');
     ledge.body.immovable = true;
 
-    player = this.add.sprite(32, this.world.height - 150, 'dude');
+    player = this.add.sprite(32, this.world.height - 150, 'dog');
 
     this.physics.arcade.enable(player);
 
-    player.body.bounce.y = 0.2;
-    player.body.gravity.y = 300;
+    //player.body.bounce.y = 0.2;
+    player.body.gravity.y = 500;
     player.body.collideWorldBounds = true;
 
-    player.animations.add('left', [0, 1, 2, 3], 10, true);
-    player.animations.add('right', [5, 6, 7, 8], 10, true);
+    player.animations.add('right', [0, 1, 2], 10, true);
+    player.animations.add('left', [3, 4, 5], 10, true);
+    player.animations.add('stand', [6, 7], 10, true);
+    player.animations.add('jump', [8, 9], 10, true);
 
     cursors = this.input.keyboard.createCursorKeys();
 
@@ -74,12 +72,13 @@ DsH.Game.prototype={
         player.body.velocity.x = 150;
         player.animations.play('right');
     }else{
-        player.animations.stop();
-        player.frame = 4;
+        player.animations.play('stand');
     }
 
     if (cursors.up.isDown && player.body.touching.down){
-        player.body.velocity.y = -350;
+        player.body.velocity.y = -150;
+        player.animations.stop();
+        player.animations.play('jump');
     }
   },
   collectStar:function(player, star) {

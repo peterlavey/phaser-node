@@ -19,6 +19,9 @@
     <script src="//cdn.jsdelivr.net/phaser/2.4.4/phaser.min.js"></script>
     -->
     <script src="libs/phaser.min.js"></script>
+    <script src="src/Config.js"></script>
+    <script src="src/Preload.js"></script>
+    <script src="src/MainMenu.js"></script>
     <script src="src/Game.js"></script>
     <style type="text/css">
         body {
@@ -32,8 +35,11 @@
 <script type="text/javascript">
   (function(){
       var game = new Phaser.Game(800,600,Phaser.CANVAS,'game');
+      game.state.add('Config', DsH.Config);
+      game.state.add('Preload', DsH.Preload);
+      game.state.add('MainMenu', DsH.MainMenu);
       game.state.add('Game', DsH.Game);
-      game.state.start('Game');
+      game.state.start('Config');
   })();
 </script>
 </body>
